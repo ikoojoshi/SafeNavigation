@@ -6,7 +6,7 @@ from flask_googlemaps import GoogleMaps, Map
 # require Flask-GoogleMaps (https://github.com/rochacbruno/Flask-GoogleMaps)
 
 app = Flask(__name__)
-api_key = 'AIzaSyBYwbRHX4As6LVd6gVrzsysPfVKRz5N-oc' # change this to your api key
+api_key = '' # change this to your api key
 # get api key from Google API Console (https://console.cloud.google.com/apis/)
 GoogleMaps(app, key=api_key) # set api_key
 devices_data = {} # dict to store data of devices
@@ -15,6 +15,10 @@ devices_location = {} # dict to store coordinates of devices
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    return render_template('index.html', map='') # render template
+
+@app.route('/navigate', methods=['GET', 'POST'])
+def navigate():
     # json_data = request.get_json(silent=True)
     # get json request
 
@@ -81,7 +85,7 @@ def index():
         circles = [circle] # pass circles
     )
 
-    return render_template('index.html', map=map) # render template
+    return render_template('navigate.html', navmap=map) # render template
 
 @app.route('/getdata', methods=['GET', 'POST'])
 def getdata():
@@ -89,6 +93,19 @@ def getdata():
     return json_data
     # you can use this to get request with strings and parse json
     # put data in database or something
+
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html', map='') # render template
+
+@app.route('/crimeanalysis', methods=['GET', 'POST'])
+def crimeanalysis():
+    return render_template('crimeanalysis.html', map='') # render template
+
+@app.route('/facebookanalysis', methods=['GET', 'POST'])
+def facebookanalysis():
+    return render_template('facebookanalysis.html', map='') # render template
+
 
 if __name__ == '__main__':
     app.run(debug = True) # run app
